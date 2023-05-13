@@ -1,11 +1,7 @@
 <template>
 <div class="">
-    <div class="mx-auto max-w-7xl rounded-md px-4 sm:px-6 lg:px-8">
-        
-       
-           
+    <div class="mx-auto max-w-7xl  px-4 sm:px-6 lg:px-8">
         <dl class="mx-auto grid  border 	rounded-md mt-3 grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
-
             <div v-for="(stat, index) in stats" :key="stat.name" 
             :class="[index === 0 ? 'rounded-tl-md  rounded-bl-md ' : '', 
             index+1 === stats.length ? ' rounded-tr-md  rounded-br-md ' : '']"
@@ -15,7 +11,10 @@
                 <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{{ stat.value }}</dd>
             </div>
         </dl>
+        <HoldingsList />
     </div>
+    
+    
 </div>
 </template>
      
