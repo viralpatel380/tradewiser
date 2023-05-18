@@ -16,15 +16,16 @@
             /> </span
         ></span>
       </div>
-      {{ new Date() > new Date(st) }}
+
       <div
-        v-if="z"
+        v-if="new Date().getTime() < new Date(st).getTime() + 24 * 60 * 60 * 1000 && z"
         class="whitespace-nowrap px-2 py-2 ml-auto flex items-center text-sm flex text-gray-500"
       >
         <span
           ><CloudArrowUpIcon class="mr-1.5 h-5 w-5" aria-hidden="true"
         /></span>
-        Synced with zerodha kite at {{ formatAMPM(new Date(st)) }}
+        Synced with zerodha kite at {{ formatAMPM(new Date(st)) }}    <button type="button" class="rounded bg-white ml-3 px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 flex items-center justify-center" @click="sync()">Sync</button>
+
       </div>
       <a
         v-else
@@ -46,7 +47,7 @@
         <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Export</button>
       </div>
     </div> -->
-      <div class="mt-8 flow-root">
+      <div v-if="data" class="mt-8 flow-root">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div
             class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
@@ -208,8 +209,11 @@
 </template>
 
 <script setup>
-import { ArrowPathIcon, CloudArrowUpIcon } from "@heroicons/vue/20/solid";
+import { CloudArrowUpIcon } from "@heroicons/vue/20/solid";
+import { ArrowPathIcon } from "@heroicons/vue/20/solid";
 import { SparklesIcon } from "@heroicons/vue/24/solid";
+
+
 const transactions = [
   {
     id: "AAPS0L",
@@ -226,7 +230,7 @@ const z = useCookie("z", { watch: true });
 const st = useCookie("st", { watch: true });
 
 // https://api.ghosters.tech
-const { data } = await useFetch(
+let { data } = await useFetch(
   `https://api.ghosters.tech/holdings?t=${z._rawValue}`,
   {
     headers: {
@@ -237,242 +241,19 @@ const { data } = await useFetch(
   }
 );
 
-const holdings = [
+async function sync(){
+  data = await useFetch(
+  `https://api.ghosters.tech/holdings?t=${z._rawValue}`,
   {
-    tradingsymbol: "ADANIENT",
-    exchange: "BSE",
-    instrument_token: 131225348,
-    isin: "INE423A01024",
-    product: "CNC",
-    price: 0,
-    quantity: 6,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 6,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 6,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 1487.9,
-    last_price: 1964.8,
-    close_price: 1964.8,
-    pnl: 2861.399999999999,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-  {
-    tradingsymbol: "ADANIPORTS",
-    exchange: "NSE",
-    instrument_token: 3861249,
-    isin: "INE742F01042",
-    product: "CNC",
-    price: 0,
-    quantity: 3,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 3,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 3,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 585.05,
-    last_price: 700,
-    close_price: 700,
-    pnl: 344.85000000000014,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-  {
-    tradingsymbol: "BEL",
-    exchange: "NSE",
-    instrument_token: 98049,
-    isin: "INE263A01024",
-    product: "CNC",
-    price: 0,
-    quantity: 4,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 4,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 4,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 109,
-    last_price: 107.3,
-    close_price: 107.3,
-    pnl: -6.800000000000011,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-  {
-    tradingsymbol: "GOLDBEES",
-    exchange: "BSE",
-    instrument_token: 151064324,
-    isin: "INF204KB17I5",
-    product: "CNC",
-    price: 0,
-    quantity: 5,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 5,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 5,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 43.16,
-    last_price: 51.93,
-    close_price: 51.93,
-    pnl: 43.850000000000016,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-  {
-    tradingsymbol: "NIFTYBEES",
-    exchange: "NSE",
-    instrument_token: 2707457,
-    isin: "INF204KB14I2",
-    product: "CNC",
-    price: 0,
-    quantity: 4,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 4,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 4,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 191.33,
-    last_price: 200.26,
-    close_price: 200.26,
-    pnl: 35.719999999999914,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-  {
-    tradingsymbol: "ONGC",
-    exchange: "BSE",
-    instrument_token: 128079876,
-    isin: "INE213A01029",
-    product: "CNC",
-    price: 0,
-    quantity: 25,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 25,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 25,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 143.18,
-    last_price: 165.5,
-    close_price: 165.5,
-    pnl: 557.9999999999998,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-  {
-    tradingsymbol: "SPELS",
-    exchange: "BSE",
-    instrument_token: 132394500,
-    isin: "INE252A01019",
-    product: "CNC",
-    price: 0,
-    quantity: 100,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 100,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 100,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 67.85,
-    last_price: 43.59,
-    close_price: 43.54,
-    pnl: -2425.999999999999,
-    day_change: 0.05000000000000426,
-    day_change_percentage: 0.11483693155719858,
-  },
-  {
-    tradingsymbol: "SUZLON",
-    exchange: "NSE",
-    instrument_token: 3076609,
-    isin: "INE040H01021",
-    product: "CNC",
-    price: 0,
-    quantity: 496,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 496,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 496,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 7.21129,
-    last_price: 8.25,
-    close_price: 8.25,
-    pnl: 515.20016,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-  {
-    tradingsymbol: "TATASTEEL",
-    exchange: "NSE",
-    instrument_token: 895745,
-    isin: "INE081A01020",
-    product: "CNC",
-    price: 0,
-    quantity: 1,
-    used_quantity: 0,
-    t1_quantity: 0,
-    realised_quantity: 1,
-    authorised_quantity: 0,
-    authorised_date: "2023-05-13 00:00:00",
-    authorisation: {},
-    opening_quantity: 1,
-    short_quantity: 0,
-    collateral_quantity: 0,
-    collateral_type: "",
-    discrepancy: false,
-    average_price: 105.75,
-    last_price: 106.75,
-    close_price: 106.75,
-    pnl: 1,
-    day_change: 0,
-    day_change_percentage: 0,
-  },
-];
+    headers: {
+      "x-token": z,
+    },
+    mode: "no-cors",
+    method: "GET",
+  }
+);
+
+}
 
 function formatAMPM(date) {
   var hours = date.getHours();

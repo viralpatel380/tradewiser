@@ -1,4 +1,6 @@
-export default defineNuxtRouteMiddleware(async (to, from) => {
+import { getCurrentUser } from "vuefire"
+
+export default defineNodeMiddleware(async (to, from) => {
     const user = await getCurrentUser()
   
     // redirect the user to the login page
