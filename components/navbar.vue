@@ -20,9 +20,9 @@
           <div class="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
             <div class="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
               <div class="flex flex-shrink-0 items-center">
-                <a href="#">
-                    <span class="text-semobold">
-                        TradeWiser
+                <a href="#" class="flex items-center justify-center">
+                  <img src="~/assets/tradewiser.png" class="h-8 mr-3" alt="" srcset="">  <span class="text-bold">
+                        Trade Wiser
                     </span>
                   <!-- <img class="block h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" /> -->
                 </a>
