@@ -241,6 +241,8 @@ let { data } = await useFetch(
   }
 );
 
+console.log(data);
+
 async function sync(){
   data = await useFetch(
   `https://api.ghosters.tech/holdings?t=${z._rawValue}`,
